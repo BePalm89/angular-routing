@@ -9,14 +9,13 @@ import {RouterModule} from '@angular/router';
 import {ProductResolve} from './product-resolve.service';
 import {ProductEditInfoComponent} from './product-edit/product-edit-info.component';
 import {ProductEditTagsComponent} from './product-edit/product-edit-tags.component';
+import {ProductEditGuard} from './product-edit/product-edit.guard';
 
 @NgModule({
   imports: [
     SharedModule,
       RouterModule.forChild([
-        {
-          path: 'products',
-          children: [
+
             {
               path: '',
               component: ProductListComponent,
@@ -29,13 +28,14 @@ import {ProductEditTagsComponent} from './product-edit/product-edit-tags.compone
             {
               path: ':id/edit',
               component: ProductEditComponent,
+              canDeactivate: [ ProductEditGuard ],
               resolve: {resolvedData: ProductResolve},
               children: [
                 { path: '', redirectTo: 'info', pathMatch: 'full'},
                 { path: 'info', component: ProductEditInfoComponent},
                 { path: 'tags', component: ProductEditTagsComponent }
               ]}
-          ]},
+          ,
       ])
   ],
   declarations: [
